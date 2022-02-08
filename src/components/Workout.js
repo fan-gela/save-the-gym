@@ -6,6 +6,7 @@ const Workout = () => {
 
     const [exercises, setExercises] = useState([]);
     const [workoutHistory, setWorkoutHistory] = useState([]);
+    const [bodyPartList, setBodyPartList] = useState([]);
     
     const shuffle = (exercises) => {
         let currentIndex = exercises.length, randomIndex;
@@ -41,19 +42,34 @@ const Workout = () => {
         }
     }
 
-
 // make ENV file for this?????
     useEffect(() => {
         // const allExercises = () => {
 
+        const bodyPartList = () => {
+            var options = {
+                method: 'GET',
+                url: 'https://exercisedb.p.rapidapi.com/exercises/bodyPartList',
+                headers: {
+                'x-rapidapi-host': 'exercisedb.p.rapidapi.com',
+                'x-rapidapi-key': `${process.env.KEY}`
+                }
+            };
+            axios.request(options).then(function (response) {
+                setBodyPartList(response.data);
+            }).catch(function (error) {
+                console.error(error);
+            });
+        }
+
         const fetchExercises = () => {
+            // const target = 'abs'
             var options = {
                 method: 'GET',
                 url: 'https://exercisedb.p.rapidapi.com/exercises',
                 headers: {
                     'x-rapidapi-host': 'exercisedb.p.rapidapi.com',
                     'x-rapidapi-key': `${process.env.KEY}`
-                    // 'cef3797e21msh3646335a7f787a2p1256eajsn840da0673c2c'
                 }
             };
             
@@ -61,13 +77,13 @@ const Workout = () => {
                 shuffle(response.data);
                 const workout = response.data.slice(0,5)
                 setExercises(workout);
-                localStorage.setItem('dailyWorkout', JSON.stringify(workout));
+                // localStorage.setItem('dailyWorkout', JSON.stringify(workout));
                 console.log(response.data);
     
             }).catch(function (error) {
                 console.error(error);
             });
-            localStorage.setItem('timeStamp', new Date().toLocaleString())
+            // localStorage.setItem('timeStamp', new Date().toLocaleString())
         }
         const timeStamp = localStorage.getItem('timeStamp')
         const dailyWorkout = JSON.parse(localStorage.getItem('dailyWorkout') || "[]")
@@ -109,7 +125,7 @@ const Workout = () => {
             {exercises.map((exercise) => {
                 return (
 
-                    <Collapsible trigger={exercise.name}>
+                    <Collapsible trigger={exercise.name} key={exercise.id}>
                     {/* <p key={exercise.id} onClick={exercise.gifUrl}>{exercise.name}</p> */}
                     <img src={exercise.gifUrl} alt=''/>
                     </Collapsible>
