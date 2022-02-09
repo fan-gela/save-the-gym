@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/save-the-gym/static/css/main.b3b13b5e.css",
+    "main.js": "/save-the-gym/static/js/main.024d0373.js",
+    "static/js/787.dc60b6a5.chunk.js": "/save-the-gym/static/js/787.dc60b6a5.chunk.js",
+    "static/media/logo.svg": "/save-the-gym/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
+    "index.html": "/save-the-gym/index.html",
+    "main.b3b13b5e.css.map": "/save-the-gym/static/css/main.b3b13b5e.css.map",
+    "main.024d0373.js.map": "/save-the-gym/static/js/main.024d0373.js.map",
+    "787.dc60b6a5.chunk.js.map": "/save-the-gym/static/js/787.dc60b6a5.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.b3b13b5e.css",
+    "static/js/main.024d0373.js"
+  ]
+}
