@@ -48,7 +48,7 @@ const Workout = () => {
                 url: 'https://exercisedb.p.rapidapi.com/exercises/',
                 headers: {
                     'x-rapidapi-host': 'exercisedb.p.rapidapi.com',
-                    'x-rapidapi-key': `${process.env.REACT_APP_KEY}`
+                    'x-rapidapi-key': 'cef3797e21msh3646335a7f787a2p1256eajsn840da0673c2c'
                 }
             };
             
