@@ -6,7 +6,6 @@ const Workout = () => {
 
     const [exercises, setExercises] = useState([]);
     const [workoutHistory, setWorkoutHistory] = useState([]);
-    const [bodyPartList, setBodyPartList] = useState([]);
     
     const shuffle = (exercises) => {
         let currentIndex = exercises.length, randomIndex;
@@ -42,34 +41,14 @@ const Workout = () => {
         }
     }
 
-// make ENV file for this?????
     useEffect(() => {
-        // const allExercises = () => {
-
-        const bodyPartList = () => {
-            var options = {
-                method: 'GET',
-                url: 'https://exercisedb.p.rapidapi.com/exercises/bodyPartList',
-                headers: {
-                'x-rapidapi-host': 'exercisedb.p.rapidapi.com',
-                'x-rapidapi-key': `${process.env.KEY}`
-                }
-            };
-            axios.request(options).then(function (response) {
-                setBodyPartList(response.data);
-            }).catch(function (error) {
-                console.error(error);
-            });
-        }
-
         const fetchExercises = () => {
-            // const target = 'abs'
             var options = {
                 method: 'GET',
-                url: 'https://exercisedb.p.rapidapi.com/exercises',
+                url: 'https://exercisedb.p.rapidapi.com/exercises/',
                 headers: {
                     'x-rapidapi-host': 'exercisedb.p.rapidapi.com',
-                    'x-rapidapi-key': `${process.env.KEY}`
+                    'x-rapidapi-key': `${process.env.REACT_APP_KEY}`
                 }
             };
             
@@ -110,47 +89,21 @@ const Workout = () => {
         // save workout to back end
     }
 
-
-    // const random = Math.floor(Math.random() * exercises.length);
-    // // console.log(random, exercises[random])
-
-    // const shuffled = exercises.sort(() => Math.random());
-
-    // let selected = shuffled.slice(0, 6);
-
-
     return (
         <section>
-
             {exercises.map((exercise) => {
                 return (
-
                     <Collapsible trigger={exercise.name} key={exercise.id}>
-                    {/* <p key={exercise.id} onClick={exercise.gifUrl}>{exercise.name}</p> */}
                     <img src={exercise.gifUrl} alt=''/>
                     </Collapsible>
                 )
             })}
+
+            {/* {exercises.filter(exercise => exercise.includes('abs')).map(absExercise => {
+                return (
+                <li>{absExercise}</li>)
+            })} */}
         <button onClick={completeButton}>Workout Complete!</button>
-
-            {/* // Shuffle array
-const shuffled = array.sort(() => 0.5 - Math.random());
-
-// Get sub-array of first n elements after shuffled
-let selected = shuffled.slice(0, n);
-image of a turtle and couch
-
-build helperf unction, slice them, then use in return function 
-     */}
-
-{/* {
-        "bodyPart": "waist",
-        "equipment": "body weight",
-        "gifUrl": "http://d205bpvrqc9yn1.cloudfront.net/0001.gif",
-        "id": "0001",
-        "name": "3/4 sit-up",
-        "target": "abs"
-    }, */}
         </section>
     )
 }
