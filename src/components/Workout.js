@@ -1,12 +1,18 @@
-import axios from "axios";
+// import axios from "axios";
 import {useEffect, useState} from "react";
 import Collapsible from 'react-collapsible';
+import turtle from '../giphy.gif';
+// import firebase from "./Firebase";
 
 const Workout = () => {
 
     const [exercises, setExercises] = useState([]);
-    const [workoutHistory, setWorkoutHistory] = useState([]);
-    
+    // const [absExercise, setAbsExercise] = useState([]);
+    // const [glutesExercise, setGlutesExercise] = useState([]);
+    const [loading, setLoading] = useState(false);
+    // const [workoutHistory, setWorkoutHistory] = useState([]);
+    // const [currentWorkout, setCurrentWorkout] = useState([]);
+
     const shuffle = (exercises) => {
         let currentIndex = exercises.length, randomIndex;
 
@@ -40,15 +46,62 @@ const Workout = () => {
         // console.log('date is NOT within 24 hours');
         }
     }
-
+// const ref = firebase.firestore().collection("workouts")
+        
     useEffect(() => {
+        setLoading(true);
+
+        // const fetchAbsExercise = () => {
+        //     var axios = require("axios").default;
+        //     var options = {
+        //         method: 'GET',
+        //         url: 'https://exercisedb.p.rapidapi.com/exercises/target/abs',
+        //         headers: {
+        //         'x-rapidapi-host': 'exercisedb.p.rapidapi.com',
+        //         'x-rapidapi-key': '4a767cae3amsh9d88b09eecd14a1p163fa3jsnf735746c1732'
+        //     }
+        //     };
+            
+        //     axios.request(options).then(function (response) {
+        //         shuffle(response.data);
+        //         const absExercise = response.data.slice(0, 1);
+        //         setAbsExercise(absExercise);
+        //         // console.log(response.data);
+        //     }).catch(function (error) {
+        //         console.error(error);
+        //     });
+        // }
+
+        // const fetchGlutesExercise = async () => {
+        //     var axios = require("axios").default;
+        //     var options = {
+        //     method: 'GET',
+        //     url: 'https://exercisedb.p.rapidapi.com/exercises/target/glutes',
+        //     headers: {
+        //         'x-rapidapi-host': 'exercisedb.p.rapidapi.com',
+        //         'x-rapidapi-key': '4a767cae3amsh9d88b09eecd14a1p163fa3jsnf735746c1732'
+        //     }
+        //     };
+
+        //     await axios.request(options).then(function (response) {
+        //         shuffle(response.data);
+        //         const glutesExercise = response.data.slice(0,1);
+        //         setGlutesExercise(glutesExercise);
+        //         // console.log(response.data);
+        //     }).catch(function (error) {
+        //         console.error(error);
+        //     });
+        // }
+        
         const fetchExercises = () => {
+            var axios = require("axios").default;
+
             var options = {
                 method: 'GET',
-                url: 'https://exercisedb.p.rapidapi.com/exercises/',
+                url: 'https://exercisedb.p.rapidapi.com/exercises',
                 headers: {
-                    'x-rapidapi-host': 'exercisedb.p.rapidapi.com',
-                    'x-rapidapi-key': 'cef3797e21msh3646335a7f787a2p1256eajsn840da0673c2c'
+                'x-rapidapi-host': 'exercisedb.p.rapidapi.com',
+                'x-rapidapi-key': '4a767cae3amsh9d88b09eecd14a1p163fa3jsnf735746c1732'
                 }
             };
             
@@ -64,6 +117,7 @@ const Workout = () => {
             });
             // localStorage.setItem('timeStamp', new Date().toLocaleString())
         }
+
         const timeStamp = localStorage.getItem('timeStamp')
         const dailyWorkout = JSON.parse(localStorage.getItem('dailyWorkout') || "[]")
 
@@ -74,36 +128,49 @@ const Workout = () => {
             }  
             else {
                 fetchExercises();
+                // fetchAbsExercise();
+                // fetchGlutesExercise();
             }
             console.log(timeStamp)
             console.log('dailyWorkout', dailyWorkout)
         }
         else {
             fetchExercises();
+            // fetchAbsExercise();
+            // fetchGlutesExercise();
         }
+
+        setTimeout(() => {
+            setLoading(false);
+        }, 1000);
 
     }, []);
 
-    const completeButton = () => {
-        // setWorkoutHistory(exercises);
-        // save workout to back end
+    if (loading) {
+        return <img src={turtle} alt="turtle on skateboard"/>
     }
+
+    // const completeButton = () => {
+    //     setWorkoutHistory(exercises);
+    //     // save workout to back end
+    // }
 
     return (
         <section>
             {exercises.map((exercise) => {
                 return (
-                    <Collapsible trigger={exercise.name} key={exercise.id}>
-                    <img src={exercise.gifUrl} alt=''/>
-                    </Collapsible>
+                    <section>
+                        <p className="exercise">
+                            <Collapsible trigger={exercise.name} key={exercise.id}>
+                            {/* <br /> */}
+                            <img src={exercise.gifUrl} alt='' className="exercise-gif"/>
+                            </Collapsible>
+                        </p>
+                    </section>
                 )
             })}
 
-            {/* {exercises.filter(exercise => exercise.includes('abs')).map(absExercise => {
-                return (
-                <li>{absExercise}</li>)
-            })} */}
-        <button onClick={completeButton}>Workout Complete!</button>
+        {/* <button onClick={completeButton}>Workout Complete!</button> */}
         </section>
     )
 }
